@@ -49,8 +49,14 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ $article->created_at->format('d/m/Y') }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                        <td class="px-6 py-4 whitespace-nowrap inline-flex space-x-3">
+                                            <a href="{{ route('user.articles.edit', $article) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+
+                                            <form class="inline" action="{{ route('user.articles.destroy', $article) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="text-red-600 hover:text-red-900">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach

@@ -108,4 +108,25 @@ class ArticleManagementTest extends TestCase
         
 
     }
+
+    /** @group articles */
+    public function test_an_article_can_be_deleted()
+    {
+        $this->withoutExceptionHandling();
+
+        $articleData = Article::factory()->make()->toArray();
+
+        $articleData['slug'] = Str::slug($articleData['title']);
+
+        $articleData['user_id'] = $this->user->id;
+
+        $article = Article::create($articleData);
+
+        $response = $this->delete(route('user.articles.destroy', $article));
+
+        $this->assertFalse(Article::where('slug', $article->slug)->exists());
+
+        $response->assertRedirect(route('user.articles.index'));
+        
+    }
 }
