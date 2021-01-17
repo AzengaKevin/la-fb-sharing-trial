@@ -15,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => view('welcome'))->name('home');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group([
+    'middleware' => ['auth:sanctum', 'verified'],
+], function(){
+    Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {    
+        Route::resource('articles', 'User\ArticleController')
+            ->except('show');
+    });
+    
+});
+
+Route::resource('articles', 'ArticleController')
+    ->only('index', 'show');
