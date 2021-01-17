@@ -7,7 +7,7 @@
                 </div>
                 <div class="flex space-x-3">
                     <a class="text-indigo-900 font-medium" href="{{ route('home') }}">Home</a>
-                    <a class="text-indigo-900 font-medium" href="#">Articles</a>
+                    <a class="text-indigo-900 font-medium" href="{{ route('articles.index') }}">Articles</a>
                 </div>
             </div>
             <div class="flex itex-center space-x-2">
