@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends Model
 {
@@ -17,5 +18,15 @@ class Article extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function file()
+    {
+        return $this->morphOne(File::class, 'fileable');
+    }
+
+    public function image() : string
+    {
+        return Storage::disk('public')->url($this->file->path);
     }
 }

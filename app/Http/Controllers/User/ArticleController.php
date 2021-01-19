@@ -42,7 +42,8 @@ class ArticleController extends Controller
     {
         $data = $request->validate([
             'title' => ['bail', 'string', 'required', 'max:255', 'unique:articles'],
-            'content' => ['bail', 'required', 'string']
+            'content' => ['bail', 'required', 'string'],
+            'image' => ['image', 'nullable']
         ]);
 
         //Add the title slug to the data array
@@ -52,7 +53,18 @@ class ArticleController extends Controller
         $data['user_id'] = $request->user()->id;
 
         //Create the article
-        Article::create($data);
+        $article = Article::create($data);
+
+        if(isset($data['image'])){
+
+            $path = $data['image']->store('article/images', 'public');
+
+            $article->file()->create([
+                'path' => $path,
+                'type' => $data['image']->getMimeType()
+            ]);
+
+        }
 
         return redirect()->route('user.articles.index');
     }

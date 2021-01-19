@@ -28,5 +28,7 @@
         <div class="font-sans text-gray-900 antialiased mt-16">
             @yield('content')
         </div>
+
+        @stack('scripts')
     </body>
 </html>
